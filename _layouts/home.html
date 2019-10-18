@@ -1,6 +1,48 @@
 ---
 layout: default
 ---
+<style>
+/* Add a gray background color with some padding */
+body {
+  font-family: Arial;
+  background: #f1f1f1;
+}
+
+/* Create two unequal columns that floats next to each other */
+/* Left column */
+.leftcolumn {   
+  float: left;
+  width: 65%;
+}
+
+/* Right column */
+.rightcolumn {
+  float: left;
+  width: 35%;
+  padding-left: 20px;
+}
+
+/* Add a card effect for articles */
+.card {
+   background-color: white;
+   padding: 20px;
+   margin-top: 20px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.card_transparent {
+   /*padding: 20px;*/
+   margin-top: 20px;
+}
+
+</style>
+
 
 <!-- Page Header -->
 {% if page.background %}
@@ -28,43 +70,71 @@ layout: default
 
   <div class="container">
     <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
+      <div class="leftcolumn">
 
-        {{ content }}
-
-        <!-- Home Post List -->
-        <h1>News board</h1>
-        {% for post in site.posts limit : 3 %}
-
-        <article class="post-preview">
-          <a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">
-            <h2 class="post-title">{{ post.title }}</h2>
-            {% if post.subtitle %}
-            <h3 class="post-subtitle">{{ post.subtitle }}</h3>
-            {% else %}
-            <h3 class="post-subtitle">{{ post.excerpt | strip_html | truncatewords: 15 }}</h3>
-            {% endif %}
-          </a>
-          <p class="post-meta">Posted by
-            {% if post.author %}
-            {{ post.author }}
-            {% else %}
-            {{ site.author }}
-            {% endif %}
-            on
-            {{ post.date | date: '%B %d, %Y' }} &middot; {% include read_time.html content=post.content %}</p>
-        </article>
-
-        <hr>
-
-        {% endfor %}
-
-        <!-- Pager -->
-        <div class="clearfix">
-          <a class="btn btn-primary float-right" href="{{"/posts" | relative_url }}">View All Posts &rarr;</a>
+        <div class="card_transparent" align="center">
+          <iframe width="720" height="405" src="https://www.youtube.com/embed/rub3skcs84Q" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
 
-      </div>
+        <div class="card">
+          <h3>Other contents.</h3>
+          <div class="fakeimg" style="height:100px;">Image</div>
+          <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
+        </div>
+
+      </div> <!-- end left column -->
+
+      <div class="rightcolumn">
+
+        <!-- news board -->
+        <div class="card">
+
+          {{ content }}
+
+          <!-- Home Post List -->
+          <h2>News board</h2>
+          {% for post in site.posts limit : 3 %}
+
+          <article class="post-preview">
+            <a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">
+              <h2 class="post-title">{{ post.title }}</h2>
+              {% if post.subtitle %}
+              <h3 class="post-subtitle">{{ post.subtitle }}</h3>
+              {% else %}
+              <h3 class="post-subtitle">{{ post.excerpt | strip_html | truncatewords: 15 }}</h3>
+              {% endif %}
+            </a>
+            <p class="post-meta">Posted by
+              {% if post.author %}
+              {{ post.author }}
+              {% else %}
+              {{ site.author }}
+              {% endif %}
+              on
+              {{ post.date | date: '%B %d, %Y' }} &middot; {% include read_time.html content=post.content %}</p>
+          </article>
+
+          <hr>
+
+          {% endfor %}
+
+          <!-- Pager -->
+          <div class="clearfix">
+            <a class="btn btn-primary float-right" href="{{"/posts" | relative_url }}">View All Posts &rarr;</a>
+          </div>
+
+        </div>
+
+        <!-- contributions -->
+        <div class="card">
+          <h3>Connect. Collaborate. Contribute.</h3>
+          <div class="fakeimg" style="height:100px;">Image</div>
+          <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
+        </div>
+
+      </div> <!-- end right column -->
+
+
     </div>
   </div>
 
