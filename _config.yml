@@ -17,8 +17,8 @@ laniakea_dashboard: 'https://cloud-90-147-170-32.cloud.ba.infn.it' # 'https://la
 navigation:
   - { name: 'Home', link: '/' }
   - { name: 'News', link: '/posts' }
-  - { name: 'Documentation', link: '{{ laniakea_documentation }}' }
-  - { name: 'Use', link: '{{ laniakea_dashboard }}' }
+  - { name: 'Documentation', link: 'https://laniakea.readthedocs.io' }
+  - { name: 'Use', link: 'https://cloud-90-147-170-32.cloud.ba.infn.it' }
   - { name: 'About', link: '/about' }
   - { name: 'Contacts', link: '/contact' }
 
