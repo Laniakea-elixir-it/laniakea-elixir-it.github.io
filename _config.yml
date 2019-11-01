@@ -10,15 +10,17 @@ url:               "http://laniakea-elixir-it.github.io"
 
 formspree_account: "https://formspree.io/xyygowra"
 
+laniakea_documentation: 'https://laniakea.readthedocs.io'
+laniakea_dashboard: 'https://cloud-90-147-170-32.cloud.ba.infn.it' # 'https://laniakea-elixir-it.github.io/2019/06/11/beta-program-end.html'
+
 # Navbar links
 navigation:
-  - {name: 'Home', link: '/'}
-  - {name: 'News', link: '/posts'}
-  - {name: 'Documentation', link: 'https://laniakea.readthedocs.io/en/latest/'}
-  - {name: 'Deploy', link: 'https://cloud-90-147-170-32.cloud.ba.infn.it'}
-  #- {name: 'Deploy', link: 'https://laniakea-elixir-it.github.io/2019/06/11/beta-program-end.html'}
-  - {name: 'About', link: '/about'}
-  - {name: 'Contacts', link: '/contact'}
+  - { name: 'Home', link: '/' }
+  - { name: 'News', link: '/posts' }
+  - { name: 'Documentation', link: '{{ laniakea_documentation }}' }
+  - { name: 'Use', link: '{{ laniakea_dashboard }}' }
+  - { name: 'About', link: '/about' }
+  - { name: 'Contacts', link: '/contact' }
 
 # Contributors
 contributors:
