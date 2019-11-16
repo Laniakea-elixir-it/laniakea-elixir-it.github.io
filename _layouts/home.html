@@ -8,37 +8,33 @@ body {
   background: #f1f1f1;
 }
 
-/* Create two unequal columns that floats next to each other */
-/* Left column */
-.leftcolumn {   
-  float: left;
-  width: 65%;
-}
-
-/* Right column */
-.rightcolumn {
-  float: left;
-  width: 35%;
-  padding-left: 20px;
-}
-
 /* Add a card effect for articles */
 .card {
-   background-color: white;
-   padding: 20px;
-   margin-top: 20px;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
+  background-color: white;
+  padding: 20px;
+  margin-top: 20px;
 }
 
 .card_transparent {
-   /*padding: 20px;*/
-   margin-top: 20px;
+  /*padding: 20px;*/
+  margin-top: 20px;
+}
+
+.video-container {
+  position:relative;
+  padding-bottom:56.25%;
+  padding-top:30px;
+  height:0;
+  overflow:hidden;
+  margin-top: 20px;
+}
+
+.video-container iframe, .video-container object, .video-container embed {
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
 }
 
 ul {
@@ -50,10 +46,10 @@ ul {
 
 <!-- Page Header -->
 {% if page.background %}
-<header class="masthead" style="background-image: url('{{ page.background | prepend: site.baseurl | replace: '//', '/' }}')">
-  {% else %}
+  <header class="masthead" style="background-image: url('{{ page.background | prepend: site.baseurl | replace: '//', '/' }}')">
+{% else %}
   <header class="masthead">
-    {% endif %}
+{% endif %}
     <div class="overlay"></div>
     <div class="container">
       <div class="row">
@@ -74,9 +70,13 @@ ul {
 
   <div class="container">
     <div class="row">
-      <div class="leftcolumn">
 
-        <div class="card_transparent" align="center">
+      <!-- ---- -->
+      <!-- Left column -->
+      <!-- ---- -->
+      <div class="col-xs-12 col-sm-6 col-md-8">
+
+        <div class="video-container" align="center">
           <iframe width="720" height="405" src="https://www.youtube.com/embed/rub3skcs84Q" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
 
@@ -88,9 +88,12 @@ ul {
 
       </div> <!-- end left column -->
 
-      <div class="rightcolumn">
-
-        <!-- news board -->
+      <!-- ---- -->
+      <!-- Right column -->
+      <!-- ---- -->
+      <div class="col-xs-6 col-md-4">
+ 
+       <!-- news board -->
         <div class="card">
 
           {{ content }}
