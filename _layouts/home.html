@@ -41,6 +41,75 @@ ul {
   list-style-type: none;
   padding: 0;
 }
+
+.column {
+  float: left;
+  width: 33%;
+  padding: 0 10px;
+}
+
+/* Remove extra left and right margins, due to padding */
+.row {margin: 0 -5px;}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Ribbon conde */
+.box {
+  width: 200px; height: 300px;
+  position: relative;
+  border: 1px solid #BBB;
+  background: #EEE;
+}
+.ribbon {
+  position: absolute;
+  right: -5px; top: -5px;
+  z-index: 1;
+  overflow: hidden;
+  width: 75px; height: 75px;
+  text-align: right;
+}
+.ribbon span {
+  font-size: 10px;
+  font-weight: bold;
+  color: #FFF;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 20px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  width: 100px;
+  display: block;
+  background: #79A70A;
+  background: linear-gradient(#9BC90D 0%, #79A70A 100%);
+  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+  position: absolute;
+  top: 19px; right: -21px;
+}
+.ribbon span::before {
+  content: "";
+  position: absolute; left: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid #79A70A;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}
+.ribbon span::after {
+  content: "";
+  position: absolute; right: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid transparent;
+  border-right: 3px solid #79A70A;
+  border-bottom: 3px solid transparent;
+  border-top: 3px solid #79A70A;
+}
+
+
 </style>
 
 
@@ -76,15 +145,31 @@ ul {
       <!-- ---- -->
       <div class="col-xs-12 col-sm-6 col-md-8">
 
-        <div class="video-container" align="center">
-          <iframe width="720" height="405" src="{{ site.laniakea_video_showcase }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
+         <!-- Laniakea video demo -->
+         <div class="video-container" align="center">
+           <iframe width="720" height="405" src="{{ site.laniakea_video_showcase }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+         </div>
 
-        <!--div class="card">
-          <h3>Other contents.</h3>
-          <div class="fakeimg" style="height:100px;">Image</div>
-          <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
-        </div-->
+         <hr>
+
+         <div class="row">
+         {% for post in site.posts %}
+           {% if post.pinned %}
+             <div class="column">
+               <div class="card">
+                  <div class="ribbon"><span>{{ post.tag }}</span></div>
+                  {% include article.html %}
+               </div>
+             </div>
+           {% endif %}
+         {% endfor %}
+         </div>
+
+         <!--div class="card">
+           <h3>Other contents.</h3>
+           <div class="fakeimg" style="height:100px;">Image</div>
+           <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
+         </div-->
 
       </div> <!-- end left column -->
 
@@ -102,26 +187,8 @@ ul {
           <h2>News board</h2>
           {% for post in site.posts limit : 3 %}
 
-          <article class="post-preview">
-            <a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">
-              <h2 class="post-title">{{ post.title }}</h2>
-              {% if post.subtitle %}
-              <h3 class="post-subtitle">{{ post.subtitle }}</h3>
-              {% else %}
-              <h3 class="post-subtitle">{{ post.excerpt | strip_html | truncatewords: 15 }}</h3>
-              {% endif %}
-            </a>
-            <p class="post-meta">Posted by
-              {% if post.author %}
-              {{ post.author }}
-              {% else %}
-              {{ site.author }}
-              {% endif %}
-              on
-              {{ post.date | date: '%B %d, %Y' }} &middot; {% include read_time.html content=post.content %}</p>
-          </article>
-
-          <hr>
+            {% include article.html %}
+            <hr>
 
           {% endfor %}
 
