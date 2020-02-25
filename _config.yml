@@ -12,7 +12,7 @@ formspree_account: "https://formspree.io/xyygowra"
 
 laniakea_documentation: 'https://laniakea.readthedocs.io'
 laniakea_at_recas: ''
-laniakea_dashboard: 'https://cloud-90-147-170-32.cloud.ba.infn.it' # 'https://laniakea-elixir-it.github.io/2019/06/11/beta-program-end.html'
+laniakea_dashboard: 'https://laniakea-dashboard.cloud.ba.infn.it' # 'https://laniakea-elixir-it.github.io/2019/06/11/beta-program-end.html'
 laniakea_video_showcase: 'https://www.youtube.com/embed/cq-68-2On3Y'
 
 # Navbar links
