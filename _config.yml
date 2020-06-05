@@ -31,7 +31,7 @@ contributors:
 - {name: 'infn-bari', logo_link: 'https://raw.githubusercontent.com/Laniakea-elixir-it/resources/master/logos/INFN.png'}
 - {name: 'unimi', logo_link: 'https://raw.githubusercontent.com/Laniakea-elixir-it/resources/master/logos/UNIMI.jpg'}
 - {name: 'recas-bari', logo_link: 'https://raw.githubusercontent.com/Laniakea-elixir-it/resources/master/logos/ReCaS-Bari.png'}
-
+- {name: 'uniba', logo_link: 'https://www.uniba.it/dati-homepage/logo_UNIBA_B_CMYK.jpg'} 
 
 # Social Profiles
 github_username:   Laniakea-elixir-it
