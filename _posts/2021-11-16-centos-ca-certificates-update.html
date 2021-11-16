@@ -2,14 +2,14 @@
 layout: post
 title:  "Manual intervention required"
 subtitle: "CentOS ca-certificates update needed"
-date:   2021-11-16 004:00:00 -0400
+date:   2021-11-16 012:00:00 -0400
 background: '/img/posts/all_systems_go.jpg'
 ---
 
 <p>Dear Users,</p>
 
 <p>
-the package CentOS <code>ca-certificates</code> package needs to be manually updated in order to restore data upload from HTTPS sources.
+the package CentOS <code>ca-certificates</code> needs to be manually updated in order to restore data upload from HTTPS sources.
 </p>
 <p>
 Currently, the upload module will display the following error if data are uploaded through HTTPS link:
@@ -24,7 +24,7 @@ To update the package login on your instance through SSH and type:<br>
 sudo yum update -y ca-certificates
 </code>
 <br>
-After the package update Galaxy will import dataset correctly.
+After the package update Galaxy will import dataset correctly. Please contact us if you need <a href="mailto:laniakea.helpdesk@gmail.com">help</a>.
 </p>
 <img src="/img/galaxy-data-import-ca-certificates-error.png" height="400" alt="Galaxy History" class="center"/>
 
