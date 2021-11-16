@@ -1,0 +1,28 @@
+---
+layout: post
+title:  "Manual intervention required"
+subtitle: "CentOS ca-certificates update needed"
+date:   2021-11-16 004:00:00 -0400
+background: '/img/posts/all_systems_go.jpg'
+---
+
+<p>Dear Users,</p>
+
+<p>
+the package CentOS <code>ca-certificates</code> package needs to be manually updated in order to restore data upload from HTTPS sources.
+
+Currently, the upload module will display the following error if data are uploaded through HTTPS link:
+<code>
+Unable to fetch https://data-url
+<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:618)>
+</code>
+
+To update the package login on your instance through SSH and type:
+<code>
+sudo yum update -y ca-certificates
+</code>
+
+
+</p>
+
+<p>The Laniakea team.</p>
