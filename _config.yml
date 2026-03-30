@@ -23,6 +23,7 @@ navigation:
   - { name: 'Use', link: 'https://laniakea-dashboard.cloud.ba.infn.it' }
   - { name: 'About', link: '/about' }
   - { name: 'Contacts', link: '/contact' }
+  - { name: 'Images', link: '/images' }
 
 # Contributors
 contributors:

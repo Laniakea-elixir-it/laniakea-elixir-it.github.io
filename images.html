@@ -1,0 +1,487 @@
+---
+layout: page
+title: "Image Catalog"
+description: "Cloud images available on the Laniakea infrastructure"
+background: 'https://raw.githubusercontent.com/Laniakea-elixir-it/branding/master/laniakea/laniakea_logo_def_mod.png'
+---
+
+<style>
+  /* ── scoped to this page only ── */
+  #img-catalog * { box-sizing: border-box; }
+
+  #img-catalog {
+    margin-top: 1rem;
+    font-family: 'Lora', 'Times New Roman', serif;
+  }
+
+  /* stats row */
+  #img-catalog .ic-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 2rem;
+  }
+  @media (max-width: 600px) {
+    #img-catalog .ic-stats { grid-template-columns: repeat(2, 1fr); }
+  }
+  #img-catalog .ic-stat {
+    background: #f8f8f8;
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    text-align: center;
+    border-top: 3px solid #f05f40;
+  }
+  #img-catalog .ic-stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #888;
+    font-family: 'Open Sans', sans-serif;
+    margin-bottom: 4px;
+  }
+  #img-catalog .ic-stat-value {
+    font-size: 26px;
+    font-weight: 700;
+    color: #2c2c2c;
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1;
+  }
+
+  /* controls */
+  #img-catalog .ic-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  #img-catalog .ic-search-wrap {
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+  }
+  #img-catalog .ic-search-wrap svg {
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    pointer-events: none;
+  }
+  #img-catalog input[type="text"],
+  #img-catalog select {
+    padding: 9px 12px 9px 36px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: 'Open Sans', sans-serif;
+    color: #2c2c2c;
+    background: #fff;
+    width: 100%;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  #img-catalog select { padding-left: 12px; width: auto; }
+  #img-catalog input[type="text"]:focus,
+  #img-catalog select:focus {
+    outline: none;
+    border-color: #f05f40;
+    box-shadow: 0 0 0 3px rgba(240,95,64,0.1);
+  }
+
+  #img-catalog .ic-results-info {
+    font-size: 12px;
+    color: #999;
+    font-family: 'Open Sans', sans-serif;
+    margin-bottom: 1rem;
+  }
+
+  /* cards */
+  #img-catalog .ic-card {
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    overflow: hidden;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    background: #fff;
+  }
+  #img-catalog .ic-card:hover {
+    border-color: #f05f40;
+    box-shadow: 0 2px 12px rgba(240,95,64,0.08);
+  }
+  #img-catalog .ic-card.expanded {
+    border-color: #f05f40;
+  }
+
+  #img-catalog .ic-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 13px 16px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.1s;
+  }
+  #img-catalog .ic-header:hover { background: #fdf9f8; }
+
+  #img-catalog .ic-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+    font-family: 'Open Sans', sans-serif;
+    letter-spacing: 0.5px;
+  }
+
+  #img-catalog .ic-info { flex: 1; min-width: 0; }
+  #img-catalog .ic-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2c2c2c;
+    font-family: 'Open Sans', sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #img-catalog .ic-meta {
+    font-size: 11px;
+    color: #999;
+    font-family: 'Open Sans', sans-serif;
+    margin-top: 2px;
+  }
+
+  #img-catalog .ic-badges {
+    display: flex;
+    gap: 5px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  #img-catalog .ic-badge {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-family: 'Open Sans', sans-serif;
+    white-space: nowrap;
+  }
+  #img-catalog .ic-badge-rocky  { background: #eaf7ee; color: #2a7a3b; border: 1px solid #c0e8c8; }
+  #img-catalog .ic-badge-ubuntu { background: #fff3ee; color: #b84a1a; border: 1px solid #f5ccb6; }
+  #img-catalog .ic-badge-galaxy { background: #f0eeff; color: #5b3fbf; border: 1px solid #d0c5f5; }
+  #img-catalog .ic-badge-generic{ background: #eef4ff; color: #1a4ab8; border: 1px solid #bdd1f5; }
+  #img-catalog .ic-badge-gpu    { background: #eaf7ee; color: #2a7a3b; border: 1px solid #c0e8c8; }
+  #img-catalog .ic-badge-cuda   { background: #f0eeff; color: #5b3fbf; border: 1px solid #d0c5f5; }
+  #img-catalog .ic-badge-tenants{ background: #f5f5f5; color: #777; border: 1px solid #e0e0e0; }
+
+  #img-catalog .ic-chevron {
+    color: #ccc;
+    font-size: 11px;
+    flex-shrink: 0;
+    transition: transform 0.2s, color 0.15s;
+    display: inline-block;
+  }
+  #img-catalog .ic-chevron.open {
+    transform: rotate(90deg);
+    color: #f05f40;
+  }
+
+  /* tenant table */
+  #img-catalog .ic-tenants {
+    border-top: 1px solid #f0f0f0;
+  }
+  #img-catalog .ic-tenant-header {
+    display: grid;
+    grid-template-columns: 1.2fr 1.8fr 1.8fr 36px;
+    gap: 8px;
+    padding: 7px 16px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #aaa;
+    font-family: 'Open Sans', sans-serif;
+    background: #fafafa;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  #img-catalog .ic-tenant-row {
+    display: grid;
+    grid-template-columns: 1.2fr 1.8fr 1.8fr 36px;
+    gap: 8px;
+    padding: 9px 16px;
+    font-size: 12px;
+    font-family: 'Open Sans', sans-serif;
+    border-top: 1px solid #f5f5f5;
+    align-items: center;
+    transition: background 0.1s;
+  }
+  #img-catalog .ic-tenant-row:hover { background: #fdf9f8; }
+  #img-catalog .ic-tenant-name { font-weight: 600; color: #333; }
+  #img-catalog .ic-tenant-svc  { color: #888; font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #img-catalog .ic-tenant-id   { color: #bbb; font-size: 10px; font-family: monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #img-catalog .ic-tenant-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 4px;
+    background: #fff3ee;
+    color: #f05f40;
+    text-decoration: none;
+    font-size: 13px;
+    border: 1px solid #faccbb;
+    transition: background 0.15s;
+  }
+  #img-catalog .ic-tenant-link:hover { background: #f05f40; color: #fff; }
+
+  @media (max-width: 600px) {
+    #img-catalog .ic-tenant-header,
+    #img-catalog .ic-tenant-row { grid-template-columns: 1fr 1fr 36px; }
+    #img-catalog .ic-tenant-header span:nth-child(3),
+    #img-catalog .ic-tenant-id { display: none; }
+    #img-catalog .ic-badges .ic-badge-tenants,
+    #img-catalog .ic-badges .ic-badge-gpu,
+    #img-catalog .ic-badges .ic-badge-cuda { display: none; }
+  }
+
+  /* state messages */
+  #img-catalog .ic-state {
+    text-align: center;
+    padding: 3.5rem 0;
+    color: #aaa;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+  }
+  #img-catalog .ic-spinner {
+    width: 30px; height: 30px;
+    border: 2px solid #eee;
+    border-top-color: #f05f40;
+    border-radius: 50%;
+    animation: ic-spin 0.8s linear infinite;
+    margin: 0 auto 1rem;
+  }
+  @keyframes ic-spin { to { transform: rotate(360deg); } }
+
+  #img-catalog .ic-last-updated {
+    font-size: 11px;
+    color: #bbb;
+    text-align: right;
+    font-family: 'Open Sans', sans-serif;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #f0f0f0;
+  }
+</style>
+
+<div id="img-catalog">
+
+  <div class="ic-stats">
+    <div class="ic-stat"><div class="ic-stat-label">Unique images</div><div class="ic-stat-value" id="ic-s-images">—</div></div>
+    <div class="ic-stat"><div class="ic-stat-label">Total entries</div><div class="ic-stat-value" id="ic-s-entries">—</div></div>
+    <div class="ic-stat"><div class="ic-stat-label">Tenants</div><div class="ic-stat-value" id="ic-s-tenants">—</div></div>
+    <div class="ic-stat"><div class="ic-stat-label">Distributions</div><div class="ic-stat-value" id="ic-s-distros">—</div></div>
+  </div>
+
+  <div class="ic-controls">
+    <div class="ic-search-wrap">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" id="ic-search" placeholder="Search image name…" oninput="icRender()">
+    </div>
+    <select id="ic-distro" onchange="icRender()">
+      <option value="">All distributions</option>
+    </select>
+    <select id="ic-tenant" onchange="icRender()">
+      <option value="">All tenants</option>
+    </select>
+  </div>
+
+  <div class="ic-results-info" id="ic-results-info"></div>
+  <div id="ic-list"></div>
+  <div class="ic-last-updated" id="ic-updated"></div>
+
+</div>
+
+<script>
+(function () {
+  var API = 'https://laniakea-dashboard.cloud.ba.infn.it/cmdb/image/list?include_docs=true';
+
+  var STYLE = {
+    rockylinux:      { cls: 'ic-badge-rocky',   icon: 'RL', bg: '#eaf7ee', color: '#2a7a3b' },
+    ubuntu:          { cls: 'ic-badge-ubuntu',  icon: 'UB', bg: '#fff3ee', color: '#b84a1a' },
+    'galaxy-express':{ cls: 'ic-badge-galaxy',  icon: 'GX', bg: '#f0eeff', color: '#5b3fbf' },
+    def:             { cls: 'ic-badge-generic', icon: 'OS', bg: '#eef4ff', color: '#1a4ab8' }
+  };
+
+  var grouped = [];
+  var expanded = {};
+
+  function s(d) { return STYLE[d] || STYLE.def; }
+
+  function load() {
+    document.getElementById('ic-list').innerHTML =
+      '<div class="ic-state"><div class="ic-spinner"></div>Loading images…</div>';
+    fetch(API)
+      .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function(j) { process(j.rows); })
+      .catch(function(e) {
+        document.getElementById('ic-list').innerHTML =
+          '<div class="ic-state">Failed to load: ' + e.message + '</div>';
+      });
+  }
+
+  function process(rows) {
+    var map = {};
+    rows.forEach(function(row) {
+      var d = row.doc.data;
+      var id = d.image_id;
+      if (!map[id]) {
+        map[id] = {
+          image_id: id,
+          image_name: d.image_name,
+          architecture: d.architecture || 'x86_64',
+          type: d.type || 'Linux',
+          distribution: d.distribution || '',
+          version: d.version || '',
+          cuda_support: d.cuda_support,
+          gpu_driver: d.gpu_driver,
+          tenants: []
+        };
+      }
+      var entry = map[id];
+      var found = false;
+      entry.tenants.forEach(function(t) { if (t.tenant_id === d.tenant_id) found = true; });
+      if (!found) {
+        entry.tenants.push({
+          tenant_id: d.tenant_id,
+          tenant_name: d.tenant_name,
+          service: d.service,
+          image_marketplace_id: d.image_marketplace_id
+        });
+      }
+      if (!entry.distribution && d.distribution) entry.distribution = d.distribution;
+      if (!entry.version && d.version) entry.version = d.version;
+    });
+
+    grouped = Object.values(map).sort(function(a,b) {
+      return a.image_name.localeCompare(b.image_name);
+    });
+
+    var distros = [];
+    grouped.forEach(function(g) { if (g.distribution && distros.indexOf(g.distribution) < 0) distros.push(g.distribution); });
+    distros.sort();
+
+    var tenantNames = [];
+    grouped.forEach(function(g) {
+      g.tenants.forEach(function(t) { if (tenantNames.indexOf(t.tenant_name) < 0) tenantNames.push(t.tenant_name); });
+    });
+    tenantNames.sort();
+
+    var ds = document.getElementById('ic-distro');
+    distros.forEach(function(d) {
+      var o = document.createElement('option'); o.value = d; o.textContent = d; ds.appendChild(o);
+    });
+
+    var ts = document.getElementById('ic-tenant');
+    tenantNames.forEach(function(t) {
+      var o = document.createElement('option'); o.value = t; o.textContent = t; ts.appendChild(o);
+    });
+
+    var allTenants = {};
+    rows.forEach(function(r) { allTenants[r.doc.data.tenant_name] = 1; });
+
+    document.getElementById('ic-s-images').textContent  = grouped.length;
+    document.getElementById('ic-s-entries').textContent = rows.length;
+    document.getElementById('ic-s-tenants').textContent = Object.keys(allTenants).length;
+    document.getElementById('ic-s-distros').textContent = distros.length;
+    document.getElementById('ic-updated').textContent   =
+      'Last updated: ' + new Date().toLocaleString('en-GB');
+
+    icRender();
+  }
+
+  window.icRender = function() {
+    var search = document.getElementById('ic-search').value.toLowerCase();
+    var distro = document.getElementById('ic-distro').value;
+    var tenant = document.getElementById('ic-tenant').value;
+
+    var filtered = grouped.filter(function(g) {
+      if (search && g.image_name.toLowerCase().indexOf(search) < 0) return false;
+      if (distro && g.distribution !== distro) return false;
+      if (tenant) {
+        var found = false;
+        g.tenants.forEach(function(t) { if (t.tenant_name === tenant) found = true; });
+        if (!found) return false;
+      }
+      return true;
+    });
+
+    document.getElementById('ic-results-info').textContent =
+      filtered.length === grouped.length
+        ? filtered.length + ' images'
+        : filtered.length + ' of ' + grouped.length + ' images';
+
+    var list = document.getElementById('ic-list');
+    if (!filtered.length) {
+      list.innerHTML = '<div class="ic-state">No images found.</div>';
+      return;
+    }
+
+    list.innerHTML = filtered.map(function(g) {
+      var st = s(g.distribution);
+      var isOpen = !!expanded[g.image_id];
+
+      var badges = '';
+      if (g.distribution) {
+        badges += '<span class="ic-badge ' + st.cls + '">' + g.distribution + (g.version ? ' ' + g.version : '') + '</span>';
+      } else {
+        badges += '<span class="ic-badge ic-badge-generic">' + g.type + '</span>';
+      }
+      if (g.gpu_driver) badges += '<span class="ic-badge ic-badge-gpu">GPU driver</span>';
+      if (g.cuda_support) badges += '<span class="ic-badge ic-badge-cuda">CUDA</span>';
+      badges += '<span class="ic-badge ic-badge-tenants">' + g.tenants.length + ' tenant' + (g.tenants.length > 1 ? 's' : '') + '</span>';
+
+      var tenantSection = '';
+      if (isOpen) {
+        var rows = g.tenants.map(function(t) {
+          return '<div class="ic-tenant-row">' +
+            '<span class="ic-tenant-name">' + t.tenant_name + '</span>' +
+            '<span class="ic-tenant-svc">' + t.service + '</span>' +
+            '<span class="ic-tenant-id">' + g.image_id + '</span>' +
+            '<a class="ic-tenant-link" href="' + t.image_marketplace_id + '" target="_blank" title="Open in Glance">↗</a>' +
+            '</div>';
+        }).join('');
+        tenantSection = '<div class="ic-tenants">' +
+          '<div class="ic-tenant-header"><span>Tenant</span><span>Keystone service</span><span>Image ID</span><span></span></div>' +
+          rows + '</div>';
+      }
+
+      return '<div class="ic-card' + (isOpen ? ' expanded' : '') + '">' +
+        '<div class="ic-header" onclick="icToggle(\'' + g.image_id + '\')">' +
+          '<div class="ic-icon" style="background:' + st.bg + ';color:' + st.color + ';">' + st.icon + '</div>' +
+          '<div class="ic-info">' +
+            '<div class="ic-name">' + g.image_name + '</div>' +
+            '<div class="ic-meta">' + g.architecture + ' · ' + g.type + (g.version ? ' · v' + g.version : '') + '</div>' +
+          '</div>' +
+          '<div class="ic-badges">' + badges + '</div>' +
+          '<span class="ic-chevron' + (isOpen ? ' open' : '') + '">&#9654;</span>' +
+        '</div>' +
+        tenantSection +
+        '</div>';
+    }).join('');
+  };
+
+  window.icToggle = function(id) {
+    expanded[id] = !expanded[id];
+    icRender();
+  };
+
+  load();
+})();
+</script>
+
