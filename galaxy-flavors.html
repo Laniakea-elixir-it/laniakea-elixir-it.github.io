@@ -22,13 +22,13 @@ background: '/img/laniakea_at_recas.jpg'
       .then(buf => {
         const db = new SQL.Database(new Uint8Array(buf));
 
-        // Lista tutte le tabelle
+        // Lists all tables
         const tables = db.exec("SELECT name FROM sqlite_master WHERE type='table'")[0].values;
 
         const container = document.getElementById('tables');
 
         tables.forEach(([tableName]) => {
-          const result = db.exec(`SELECT * FROM "${tableName}"`)[0];
+          const result = db.exec(`SELECT * FROM "${tableName}" ORDER BY rowid DESC`)[0];
           if (!result) return;
 
           let html = `<h3>${tableName}</h3><div class="table-responsive">`;
