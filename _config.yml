@@ -24,6 +24,7 @@ navigation:
   - { name: 'About', link: '/about' }
   - { name: 'Contacts', link: '/contact' }
   - { name: 'Images', link: '/images' }
+  - { name: 'Galaxy Express flavours', link: '/flavors' }
 
 # Contributors
 contributors:

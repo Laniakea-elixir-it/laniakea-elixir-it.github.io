@@ -1,0 +1,52 @@
+---
+layout: page
+title: Galaxy Flavors
+description: Available Galaxy flavors on Laniakea@ReCaS
+background: '/img/laniakea_at_recas.jpg'
+---
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.2/sql-wasm.js"></script>
+
+<div id="loading">Loading database...</div>
+<div id="content" style="display:none">
+  <p>List of available Galaxy flavors deployed on Laniakea@ReCaS.</p>
+  <div id="tables"></div>
+</div>
+
+<script>
+  initSqlJs({
+    locateFile: f => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.2/${f}`
+  }).then(SQL => {
+    fetch('https://raw.githubusercontent.com/Laniakea-elixir-it/Galaxy-flavours/master/JNK-CI/test.db')
+      .then(r => r.arrayBuffer())
+      .then(buf => {
+        const db = new SQL.Database(new Uint8Array(buf));
+
+        // Lista tutte le tabelle
+        const tables = db.exec("SELECT name FROM sqlite_master WHERE type='table'")[0].values;
+
+        const container = document.getElementById('tables');
+
+        tables.forEach(([tableName]) => {
+          const result = db.exec(`SELECT * FROM "${tableName}"`)[0];
+          if (!result) return;
+
+          let html = `<h3>${tableName}</h3><div class="table-responsive">`;
+          html += '<table class="table table-bordered table-hover table-sm">';
+          html += '<thead class="thead-dark"><tr>';
+          result.columns.forEach(col => html += `<th>${col}</th>`);
+          html += '</tr></thead><tbody>';
+          result.values.forEach(row => {
+            html += '<tr>';
+            row.forEach(cell => html += `<td>${cell ?? ''}</td>`);
+            html += '</tr>';
+          });
+          html += '</tbody></table></div>';
+          container.innerHTML += html;
+        });
+
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+      });
+  });
+</script>
